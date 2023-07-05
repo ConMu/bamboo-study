@@ -1,17 +1,67 @@
+WEB-INF/views/mock/*
+WEB-INF/views/mock/kefu/*
+*.iml
+.idea/
 target/
-pom.xml.tag
-pom.xml.releaseBackup
-pom.xml.versionsBackup
-pom.xml.next
-release.properties
-dependency-reduced-pom.xml
-buildNumber.properties
-.mvn/timing.properties
-# https://github.com/takari/maven-wrapper#usage-without-binary-jar
-.mvn/wrapper/maven-wrapper.jar
+*.log*
+*.class
+*.patch
+*.DS_Store
+generated/
+**/WEB-INF/lib/*
+compressed/
 
-# Eclipse m2e generated files
-# Eclipse Core
-.project
-# JDT-specific (Eclipse Java Development Tools)
+#JStorm打包临时文件
+servers/streaming/dependency-reduced-pom.xml
+
+.DS_Store
+node_modules/
+/dist/*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+### wildcard ###
+*~
+*.iml
+*.class
+*.swp
+
+### file ###
+.DS_Store
+pom.xml.versionsBackup
+!.mvn/wrapper/maven-wrapper.jar
+.flattened-pom.xml
+
+### directory ###
+target/
+@log.path@/
+dist/*
+*/dist/*
+dist/
+node_modules/
+node_modules
+compressed/
+compressed/*
+
+### STS ###
+.apt_generated
 .classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.ipr
+
