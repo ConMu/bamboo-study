@@ -1,6 +1,7 @@
 package com.conmu.bamboo.createpattern.builder.impl;
 
 import com.conmu.bamboo.createpattern.builder.inter.Item;
+import com.conmu.bamboo.createpattern.builder.inter.Packing;
 
 /**
  * @author mucongcong
