@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>bamboo-skywalking-plugin</module>
+        <module>bamboo-skywalking-agent</module>
     </modules>
 
     <properties>

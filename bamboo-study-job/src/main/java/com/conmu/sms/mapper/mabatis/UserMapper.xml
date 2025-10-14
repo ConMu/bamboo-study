@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.conmu.sms.entity.User">
+
+    <resultMap id="UserMap" type="com.conmu.sms.entity.User" autoMapping="true">
+        <result column="id" property="id" />
+        <result column="username" property="username" />
+    </resultMap>
+
+
+    <sql id="UserColumns">
+        id, username
+    </sql>
+
+
+    <insert id="insert" parameterType="com.conmu.sms.entity.User"
+            keyColumn="id"
+            keyProperty="id"
+            useGeneratedKeys="true"
+    >
+        INSERT INTO nim_sms_backfill_record
+        (<include refid="UserColumns"/>)
+        VALUES
+        (#{id},#{username}
+
+        )
+    </insert>
+
+
+</mapper>

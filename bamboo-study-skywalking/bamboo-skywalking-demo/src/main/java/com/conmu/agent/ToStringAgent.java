@@ -1,39 +1,33 @@
 package com.conmu.agent;
 
-import net.bytebuddy.ByteBuddy;
-import net.bytebuddy.NamingStrategy;
+import com.conmu.agent.base.ToString;
+import net.bytebuddy.agent.builder.AgentBuilder;
 import net.bytebuddy.description.type.TypeDescription;
 import net.bytebuddy.dynamic.DynamicType;
+import net.bytebuddy.implementation.FixedValue;
+import net.bytebuddy.utility.JavaModule;
+
+import java.lang.instrument.Instrumentation;
+import java.security.ProtectionDomain;
+
+import static net.bytebuddy.matcher.ElementMatchers.isAnnotatedWith;
+import static net.bytebuddy.matcher.ElementMatchers.named;
 
 /**
  * @author mucongcong
- * @date 2024/11/22 16:55
+ * @date 2024/12/04 11:27
  * @since
  **/
 public class ToStringAgent {
-
-    public static void main(String[] args) {
-        // 1. 创建子类。创建一个继承至 Object 类型的类,默认配置命名
-        DynamicType.Unloaded<?> make = new ByteBuddy()
-                .subclass(Object.class)
-                .name("example.Type")
-                .make();
-
-        // 2. 创建子类，命名规则自定义。匿名类被简单实现为连接 i.love.ByteBuddy 和基类的简要名称。当扩展 Object 类型时，动态类将被命名为 i.love.ByteBuddy.Object
-        DynamicType.Unloaded<?> make1 = new ByteBuddy().with(new NamingStrategy.AbstractBase() {
+    public static void premain(String args, Instrumentation instrumentation) {
+        new AgentBuilder.Default()
+                .type(isAnnotatedWith(ToString.class))
+                .transform(new AgentBuilder.Transformer() {
                     @Override
-                    protected String name(TypeDescription superClass) {
-                        return "i.love.ByteBuddy." + superClass.getSimpleName();
+                    public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule module, ProtectionDomain protectionDomain) {
+                        return builder.method(named("toString"))
+                                .intercept(FixedValue.value("transformed"));
                     }
-                })
-                .subclass(Object.class)
-                .make();
-
-
-
-    }
-
-    class Foo{
-        String bar(){return "bar";}
+                }).installOn(instrumentation);
     }
 }
