@@ -1,6 +1,6 @@
 package com.conmu.sms.dao;
 
-import com.conmu.sms.entity.User;
+import com.conmu.sms.dao.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

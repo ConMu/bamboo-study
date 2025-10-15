@@ -1,11 +1,17 @@
 server:
   port: 8890
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
-    url: jdbc:mysql://127.0.0.1:3306/yunxin_recovery?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&connectTimeout=5000
-    username: root
-    password: xu20141210chen
-    driver-class-name: com.mysql.cj.jdbc.Driver
-
+    db1:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:3306/yunxin_recovery?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&connectTimeout=5000
+      username: root
+      password: xu20141210chen
+      driverClassName: com.mysql.cj.jdbc.Driver
+    db2:
+      type: com.alibaba.druid.pool.DruidDataSource
+      url: jdbc:mysql://127.0.0.1:4407/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&connectTimeout=5000
+      username: root
+      password: root
+      driverClassName: com.mysql.cj.jdbc.Driver
 mybatis:
-  mapper-locations: classpath:com/conmu/sms/mapper/mybatis/*.xml
+  mapper-locations: classpath:com/conmu/sms/dao/mapper/**/*.xml
