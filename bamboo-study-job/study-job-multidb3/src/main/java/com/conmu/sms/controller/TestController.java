@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @date 2025/10/14 17:48
  * @since
  **/
-@Api(tags = "多数据源测试接口")
+@Api(tags = "业务数据测试接口")
 @RestController
 @RequestMapping("/api")
 public class TestController {

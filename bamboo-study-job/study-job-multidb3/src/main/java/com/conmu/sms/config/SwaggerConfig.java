@@ -33,45 +33,26 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.conmu.sms.controller"))
                 .paths(PathSelectors.any())
-                .build()
-                .globalOperationParameters(globalParameters()); // 添加全局参数
-    }
-
-    /**
-     * 全局参数配置 - dsNo数据源选择
-     */
-    private List<Parameter> globalParameters() {
-        List<Parameter> parameters = new ArrayList<>();
-
-        // dsNo 数据源参数
-        Parameter dsNoParameter = new ParameterBuilder()
-                .name("dsNo")
-                .description("数据源编号：ds0(数据源1-用户库) 或 ds1(数据源2-人员库)")
-                .modelRef(new ModelRef("string"))
-                .parameterType("header")
-                .required(false)
-                .defaultValue("ds0")
                 .build();
-
-        parameters.add(dsNoParameter);
-        return parameters;
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("SpringBoot多数据源API文档 (动态切换版)")
-                .description("基于SpringBoot + MyBatis + Druid的多数据源动态切换示例API\n\n" +
-                           "📋 **数据源说明**:\n" +
-                           "- ds0: 数据源1 (yunxin_recovery数据库，端口3306)\n" +
-                           "- ds1: 数据源2 (test数据库，端口4407)\n" +
-                           "- 两个数据库都有相同的表结构(users, people)，可任意选择\n\n" +
+                .title("SpringBoot多数据源API文档 (Mapper级热切换版)")
+                .description("基于Mapper维度的数据源热切换系统\n\n" +
+                           "🚀 **核心特性**:\n" +
+                           "- Mapper级别数据源绑定 (PeopleMapper->ds0, UserMapper->ds1)\n" +
+                           "- 支持运行时热切换数据源配置\n" +
+                           "- 无需重启应用即可修改数据源策略\n\n" +
+                           "📋 **数据源配置**:\n" +
+                           "- ds0: yunxin_recovery数据库 (端口3306)\n" +
+                           "- ds1: test数据库 (端口4407)\n\n" +
                            "🔧 **使用方式**:\n" +
-                           "- 在请求头中添加 dsNo 参数来指定数据源\n" +
-                           "- 不指定时默认使用 ds0 数据源\n" +
-                           "- AOP切面会自动根据dsNo切换数据源\n" +
-                           "- 所有接口都支持 ds0 和 ds1 两个数据源")
+                           "1. 业务接口: 自动根据Mapper配置选择数据源\n" +
+                           "2. 热切换接口: /api/datasource/** 管理数据源配置\n" +
+                           "3. 实时生效: 配置修改后立即生效，无需重启")
                 .contact(new Contact("mucongcong", "https://github.com/mucongcong", "mucongcong@example.com"))
-                .version("2.0.0")
+                .version("3.0.0")
                 .build();
     }
 }
