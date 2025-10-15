@@ -1,0 +1,35 @@
+server:
+  port: 8892
+  datasource:
+    db1:
+      type: com.alibaba.druid.pool.DruidDataSource
+      jdbcUrl: jdbc:mysql://127.0.0.1:3306/yunxin_recovery?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&connectTimeout=5000
+      username: root
+      password: xu20141210chen
+      driverClassName: com.mysql.cj.jdbc.Driver
+      # Druid连接池配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+    db2:
+      type: com.alibaba.druid.pool.DruidDataSource
+      jdbcUrl: jdbc:mysql://127.0.0.1:4407/test?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8&connectTimeout=5000
+      username: root
+      password: root
+      driverClassName: com.mysql.cj.jdbc.Driver
+      # Druid连接池配置
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      maxWait: 60000
+      validationQuery: SELECT 1
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+mybatis:
+  mapper-locations: classpath:com/conmu/sms/dao/mapper/**/*.xml
