@@ -55,7 +55,17 @@ public class TestController {
             }
 
             int result = userService.insert(user);
-            if (result > 0) {
+            People people = new People();
+            people.setName(user.getUsername());
+            people.setAge(25);
+            people.setEmail(user.getUsername() + "@example.com");
+            people.setPhone(user.getPhone());
+            people.setGender(0);
+            people.setAge(0);
+            people.setCreatedBy(1L);
+            people.setUpdatedBy(1L);
+            int result2 = peopleService.insert(people);
+            if (result > 0 && result2 > 0) {
                 return ApiResult.success("用户创建成功", user);
             } else {
                 return ApiResult.error("用户创建失败");

@@ -1,5 +1,6 @@
 package com.conmu.sms.config;
 
+import com.alibaba.druid.pool.DruidDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
@@ -25,21 +26,21 @@ public class DynamicDataSourceConfig {
     /**
      * 将第1个数据源对象放入Spring容器中
      *
-     * @ConfigurationProperties 读取application.yml中的前缀为server.datasource.db1的配置参数并映射成为一个对象
+     * @ConfigurationProperties 读取application.yml中spring.datasource.db1的配置参数并映射成为一个对象
      */
     @Bean(name = "dateSource1")
-    @ConfigurationProperties(prefix = "server.datasource.db1")
+    @ConfigurationProperties(prefix = "spring.datasource.db1.druid")
     public DataSource DateSource1() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create().type(DruidDataSource.class).build();
     }
 
     /**
      * 将第2个数据源对象放入Spring容器中
      */
     @Bean(name = "dateSource2")
-    @ConfigurationProperties(prefix = "server.datasource.db2")
+    @ConfigurationProperties(prefix = "spring.datasource.db2.druid")
     public DataSource DateSource2() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create().type(DruidDataSource.class).build();
     }
 
     /**
