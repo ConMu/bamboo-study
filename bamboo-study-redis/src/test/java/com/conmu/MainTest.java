@@ -513,12 +513,12 @@ public class MainTest extends TestCase {
         JedisPoolConfig poolConfig = new JedisPoolConfig();
         poolConfig.setMaxTotal(20);
 
-        JedisPool jedisResourse = new JedisPool(poolConfig, "10.59.135.173", 6380,2000,"b39044073e6f");
+        JedisPool jedisResourse = new JedisPool(poolConfig, "10.59.133.81", 6380,2000,"075544cb3996");
 
         Jedis jedis = jedisResourse.getResource();
         // mobile_freq|min|58858|+86-13112180686
         // direct_user_mobile_new_freq|day|1|58858|+86-13112180686
-        String ss = "bizinfo_b_12003";
+        String ss = "mobile_freq|min|27969|+86-15810496693";
         String s;
         try {
             s = jedis.get(ss);
@@ -527,12 +527,53 @@ public class MainTest extends TestCase {
             HostAndPort targetNode = e.getTargetNode();
             String host = targetNode.getHost();
             int port = targetNode.getPort();
-            jedisResourse = new JedisPool(poolConfig, host, port,2000,"b39044073e6f");
+            jedisResourse = new JedisPool(poolConfig, host, port,2000,"075544cb3996");
             jedis = jedisResourse.getResource();
             s = jedis.get(ss);
-
         }
         System.out.println(s);
         jedis.close();
+    }
+
+
+    /**
+     * zrange
+     **/
+    private final static String CMPP_CONNECT_KEY = "sms_gateway_conn|";
+    private String buildCmppKey(String cmppCount) {
+        return CMPP_CONNECT_KEY + cmppCount;
+    }
+
+    private final static String OLD_JEDIS_IP = "10.44.94.15";
+    private final static int OLD_JEDIS_PORT = 6805;
+    private final static String NEW_JEDIS_IP = "10.44.85.12";
+    private final static int NEW_JEDIS_PORT = 6405;
+
+    private final static String CMPPACCOUNT = "aaa";
+    @Test
+    public void testRedisRecordEqual() throws InterruptedException {
+        JedisPoolConfig poolConfig = new JedisPoolConfig();
+        poolConfig.setMaxTotal(20);
+
+        JedisPool jedisResourse = new JedisPool(poolConfig, "OLD_JEDIS_IP", OLD_JEDIS_PORT,2000,"d750e870db06");
+
+        Jedis jedis = jedisResourse.getResource();
+        String cmppKey = buildCmppKey(CMPPACCOUNT);
+        Set<String> zrange;
+        try {
+            zrange = jedis.zrange(cmppKey, 0, -1);
+        } catch (JedisMovedDataException e) {
+            jedis.close();
+            HostAndPort targetNode = e.getTargetNode();
+            String host = targetNode.getHost();
+            int port = targetNode.getPort();
+            jedisResourse = new JedisPool(poolConfig, host, port,2000,"075544cb3996");
+            jedis = jedisResourse.getResource();
+            zrange = jedis.zrange(cmppKey, 0, -1);
+        }
+        jedis.close();
+        for (String s : zrange) {
+            System.out.println(s);
+        }
     }
 }

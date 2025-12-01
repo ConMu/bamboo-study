@@ -64,7 +64,7 @@ IDEA启动multidb2项目时报错："没有为模块 bamboo-study-job 指定输�
 1. 进入 `Run` → `Edit Configurations`
 2. 删除所有关于 `bamboo-study-job` 父模块的运行配置
 3. 为子模块创建正确的运行配置：
-   - **Main Class**: `com.conmu.sms.Application`
+   - **Main Class**: `com.conmu.sms.Application3`
    - **Module**: 选择具体的子模块(如 `study-job-multidb1` 或 `study-job-multidb2`)
    - **Working directory**: 子模块的根目录
 

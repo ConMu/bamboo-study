@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.conmu.sms.dao.mapper.UserMapper">
+
+    <resultMap id="UserMap" type="com.conmu.sms.dao.entity.User" autoMapping="true">
+        <result column="id" property="id" />
+        <result column="username" property="username" />
+        <result column="password" property="password" />
+        <result column="real_name" property="realName" />
+        <result column="email" property="email" />
+        <result column="phone" property="phone" />
+        <result column="status" property="status" />
+        <result column="role_id" property="roleId" />
+        <result column="created_time" property="createdTime" jdbcType="TIMESTAMP" />
+        <result column="updated_time" property="updatedTime" jdbcType="TIMESTAMP" />
+        <result column="created_by" property="createdBy" />
+        <result column="updated_by" property="updatedBy" />
+        <result column="deleted" property="deleted" />
+    </resultMap>
+
+    <sql id="UserColumns">
+        id, username, password, real_name, email, phone, status, role_id,
+        created_time, updated_time, created_by, updated_by, deleted
+    </sql>
+
+    <sql id="UserInsertColumns">
+        username, password, real_name, email, phone, status, role_id,
+        created_time, updated_time, created_by, updated_by, deleted
+    </sql>
+
+    <insert id="insert" parameterType="com.conmu.sms.dao.entity.User"
+            keyColumn="id"
+            keyProperty="id"
+            useGeneratedKeys="true">
+        INSERT INTO users
+        (<include refid="UserInsertColumns"/>)
+        VALUES
+        (#{username}, #{password}, #{realName}, #{email}, #{phone}, #{status}, #{roleId},
+         NOW(), NOW(), #{createdBy}, #{updatedBy}, #{deleted})
+    </insert>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="UserMap">
+        SELECT <include refid="UserColumns"/>
+        FROM users
+        WHERE username = #{username} AND deleted = 0
+    </select>
+
+    <update id="update" parameterType="com.conmu.sms.dao.entity.User">
+        UPDATE users
+        SET
+            username = #{username},
+            password = #{password},
+            real_name = #{realName},
+            email = #{email},
+            phone = #{phone},
+            status = #{status},
+            role_id = #{roleId},
+            updated_time = NOW(),
+            updated_by = #{updatedBy}
+        WHERE id = #{id} AND deleted = 0
+    </update>
+
+</mapper>

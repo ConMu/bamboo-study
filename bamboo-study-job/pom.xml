@@ -18,6 +18,8 @@
         <module>study-job-multidb1</module>
         <module>study-job-multidb2</module>
         <module>study-job-multidb3</module>
+        <module>study-job-multidb</module>
+        <module>study-job-multidb-pack</module>
     </modules>
 
     <properties>
