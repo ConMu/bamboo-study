@@ -50,6 +50,13 @@
             <version>2.0.1</version>
         </dependency>
 
+        <!-- Druid 连接池 Spring Boot 支持 -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>1.1.10</version>
+        </dependency>
+
         <!-- Spring Boot 自动配置 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

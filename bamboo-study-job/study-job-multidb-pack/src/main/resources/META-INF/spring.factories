@@ -1,3 +1,4 @@
 # Auto Configure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+com.conmu.multidb.config.MultiDbAutoConfiguration,\
 com.conmu.multidb.core.DbManageRouteHolder
