@@ -19,6 +19,7 @@
         <module>study-job-multidb2</module>
         <module>study-job-multidb3</module>
         <module>study-job-multidb</module>
+        <module>study-job-multidb-demo</module>
     </modules>
 
     <properties>

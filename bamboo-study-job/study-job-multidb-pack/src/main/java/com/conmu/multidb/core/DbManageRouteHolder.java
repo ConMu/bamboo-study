@@ -4,6 +4,7 @@ import com.conmu.multidb.config.DataSourceConfigProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @date 2025/12/01
  */
 @Component
+@ConditionalOnBean(DataSourceConfigProvider.class)
 public class DbManageRouteHolder {
     
     private static final Logger logger = LoggerFactory.getLogger(DbManageRouteHolder.class);
