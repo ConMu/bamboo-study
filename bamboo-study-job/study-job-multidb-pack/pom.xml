@@ -12,15 +12,16 @@
 
     <groupId>com.conmu.multidb</groupId>
     <artifactId>study-job-multidb-pack</artifactId>
-    <version>1.0.0</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>study-job-multidb-pack</name>
-    <description>Dynamic Multi-DataSource JAR for Spring Boot</description>
+    <description>Dynamic Multi-DataSource JAR for Spring Boot - 独立工具包</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mybatis-spring-boot.version>2.0.1</mybatis-spring-boot.version>
     </properties>
 
     <dependencies>
