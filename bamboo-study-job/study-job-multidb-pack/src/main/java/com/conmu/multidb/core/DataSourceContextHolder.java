@@ -33,12 +33,5 @@ public class DataSourceContextHolder {
     public static void clearDataSource() {
         contextHolder.remove();
     }
-    
-    /**
-     * 检查当前线程是否设置了数据源
-     * @return true表示已设置
-     */
-    public static boolean hasDataSource() {
-        return contextHolder.get() != null;
-    }
+
 }

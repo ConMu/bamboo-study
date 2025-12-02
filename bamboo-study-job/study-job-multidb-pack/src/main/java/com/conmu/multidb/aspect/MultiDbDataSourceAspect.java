@@ -123,7 +123,7 @@ public class MultiDbDataSourceAspect {
      * @return true表示应该拦截，false表示跳过
      */
     private boolean shouldIntercept(String mapperClassName) {
-        // 1. 如果配置了包路径，检查是否在指定包下
+        // 如果配置了包路径，检查是否在指定包下
         if (!configuredPackages.isEmpty()) {
             boolean inConfiguredPackage = configuredPackages.stream()
                 .anyMatch(pkg -> mapperClassName.startsWith(pkg + ".") || mapperClassName.startsWith(pkg));
@@ -134,13 +134,6 @@ public class MultiDbDataSourceAspect {
             }
 
             logger.debug("✅ [MultiDbDataSourceAspect] {} 在配置包路径中，进行拦截", getSimpleClassName(mapperClassName));
-        }
-
-        // 2. 检查是否在路由管理器中有配置
-        String dataSourceKey = dbManageRouteHolder.get(mapperClassName);
-        if (dataSourceKey == null) {
-            logger.debug("⚠️ [MultiDbDataSourceAspect] {} 未配置数据源映射，使用默认数据源", getSimpleClassName(mapperClassName));
-            return true; // 仍然拦截，使用默认数据源
         }
 
         return true;

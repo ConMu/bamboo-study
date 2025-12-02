@@ -25,10 +25,10 @@ public interface DataSourceConfigProvider {
     String getDefaultDataSourceKey();
     
     /**
-     * 获取Mapper到数据源的初始映射关系
+     * 获取Mapper到数据源的映射关系
      * @return key: Mapper类全名, value: 数据源标识
      */
-    Map<String, String> getInitialMapperDataSourceMappings();
+    Map<String, String> getMapperDataSourceMappings();
     
     /**
      * 指定要扫描的Mapper包路径
@@ -42,9 +42,10 @@ public interface DataSourceConfigProvider {
     String[] getMapperPackages();
 
     /**
-     * 是否启用热重载功能
+     * 获取自动重载间隔时间（秒）
+     * @return 重载间隔，返回0或负数表示不启用自动重载
      */
-    default boolean isHotReloadEnabled() {
-        return true;
+    default long getAutoReloadIntervalSeconds() {
+        return 0; // 默认不启用自动重载
     }
 }

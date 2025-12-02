@@ -67,7 +67,7 @@ public class MyDataSourceConfigProvider implements DataSourceConfigProvider {
     }
     
     @Override
-    public Map<String, String> getInitialMapperDataSourceMappings() {
+    public Map<String, String> getMapperDataSourceMappings() {
         Map<String, String> mappings = new HashMap<>();
         mappings.put("com.example.mapper.UserMapper", "user");
         mappings.put("com.example.mapper.OrderMapper", "main");
@@ -102,19 +102,12 @@ Spring Boot会自动发现并配置多数据源组件，无需额外配置。
 
 ## 🔄 动态管理
 
-### 运行时切换Mapper数据源
+### 热重载配置
 
 ```java
 @Autowired
 private DbManageRouteHolder routeHolder;
 
-// 动态切换UserMapper使用的数据源
-routeHolder.switchMapper("com.example.mapper.UserMapper", "newDataSourceKey");
-```
-
-### 热重载配置
-
-```java
 // 重新加载所有配置
 routeHolder.reload();
 ```
@@ -126,6 +119,15 @@ routeHolder.reload();
 String dataSourceKey = routeHolder.get("com.example.mapper.UserMapper");
 ```
 
+### 自动重载功能
+
+```java
+@Override
+public long getAutoReloadIntervalSeconds() {
+    return 60; // 每60秒自动重载一次配置
+}
+```
+
 ## ⚙️ 配置选项
 
 ### DataSourceConfigProvider接口方法说明
@@ -134,9 +136,9 @@ String dataSourceKey = routeHolder.get("com.example.mapper.UserMapper");
 |------|------|------|
 | `getDataSources()` | 返回所有数据源配置 | ✅ |
 | `getDefaultDataSourceKey()` | 指定默认数据源key | ✅ |
-| `getInitialMapperDataSourceMappings()` | 初始Mapper映射配置 | ❌ |
+| `getMapperDataSourceMappings()` | Mapper映射配置 | ❌ |
 | `getMapperPackages()` | Mapper包扫描路径 | ❌ |
-| `isHotReloadEnabled()` | 是否启用热重载 | ❌ (默认true) |
+| `getAutoReloadIntervalSeconds()` | 自动重载间隔（秒） | ❌ (默认0，不启用) |
 
 ## 📋 注意事项
 
@@ -195,7 +197,7 @@ String dataSourceKey = routeHolder.get("com.example.mapper.UserMapper");
 
 ## 📚 示例项目
 
-参考 `com.conmu.sms.config.ExampleDataSourceConfigProvider` 获取完整的实现示例。
+        请根据实际项目需求实现 `DataSourceConfigProvider` 接口。
 
 ---
 
