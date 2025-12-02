@@ -19,7 +19,6 @@
         <module>study-job-multidb2</module>
         <module>study-job-multidb3</module>
         <module>study-job-multidb</module>
-        <module>study-job-multidb-pack</module>
     </modules>
 
     <properties>
@@ -123,6 +122,19 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+    <dependencies>
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.6.11</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+    </dependencies>
 
     <!-- 构建配置 -->
     <build>
