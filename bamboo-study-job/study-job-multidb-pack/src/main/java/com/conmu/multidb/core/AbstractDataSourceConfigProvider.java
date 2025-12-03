@@ -67,7 +67,7 @@ public abstract class AbstractDataSourceConfigProvider
     /**
      * 更新单个Mapper映射
      *
-     * @param mapperClass Mapper类全名
+     * @param mapperClass   Mapper类全名
      * @param dataSourceKey 数据源标识
      */
     protected void addMapper(String mapperClass, String dataSourceKey) {

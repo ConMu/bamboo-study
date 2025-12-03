@@ -58,7 +58,7 @@ public class DbManageRouteHolder {
      */
     String get(String mapperClassName) {
         String dataSourceKey = mapperDataSourceManageMap.get(mapperClassName);
-        if (dataSourceKey == null) {
+        if (dataSourceKey == null || !configProvider.getDataSources().containsKey(dataSourceKey)) {
             dataSourceKey = configProvider.getDefaultDataSourceKey();
             logger.debug("🔍 [DbManageRouteHolder] Mapper {} → {} (默认)", getSimpleMapperName(mapperClassName), dataSourceKey);
         } else {
