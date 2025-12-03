@@ -110,6 +110,10 @@ public class MultiDbDataSourceAspect {
         } catch (Exception e) {
             logger.error("❌ [MultiDbDataSourceAspect] 执行失败: {}", e.getMessage());
             throw e;
+        } finally {
+            // 🎯 关键：在方法执行完成后清理ThreadLocal，避免内存泄漏
+            DataSourceContextHolder.clearDataSource();
+            logger.debug("🧹 [MultiDbDataSourceAspect] 清理数据源上下文");
         }
     }
 

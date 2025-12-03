@@ -28,30 +28,4 @@ public class MultiDbDynamicDataSource extends AbstractRoutingDataSource {
         
         return dataSource;
     }
-    
-    /**
-     * 在查找数据源后清理ThreadLocal，避免内存泄漏
-     */
-    @Override
-    public java.sql.Connection getConnection() throws java.sql.SQLException {
-        try {
-            return super.getConnection();
-        } finally {
-            // 获取连接后清理ThreadLocal
-            DataSourceContextHolder.clearDataSource();
-        }
-    }
-    
-    /**
-     * 重载方法，支持用户名和密码的连接
-     */
-    @Override
-    public java.sql.Connection getConnection(String username, String password) throws java.sql.SQLException {
-        try {
-            return super.getConnection(username, password);
-        } finally {
-            // 获取连接后清理ThreadLocal
-            DataSourceContextHolder.clearDataSource();
-        }
-    }
 }

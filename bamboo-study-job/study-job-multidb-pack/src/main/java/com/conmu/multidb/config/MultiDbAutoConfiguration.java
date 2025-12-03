@@ -3,6 +3,7 @@ package com.conmu.multidb.config;
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import com.conmu.multidb.core.AbstractDataSourceConfigProvider;
 import com.conmu.multidb.core.MultiDbDynamicDataSource;
+import com.conmu.multidb.core.MultiDbDynamicTransactionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Primary;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
@@ -76,5 +78,20 @@ public class MultiDbAutoConfiguration {
         logger.info("✅ [MultiDbAutoConfiguration] 多数据源初始化完成，共 {} 个数据源", dataSources.size());
 
         return dynamicDataSource;
+    }
+
+    /**
+     * 创建动态事务管理器Bean
+     * @return MultiDbDynamicTransactionManager实例
+     */
+    @Bean(name = "transactionManager")
+    @Primary
+    public PlatformTransactionManager transactionManager() {
+        logger.info("🚀 [MultiDbAutoConfiguration] 开始初始化多数据源事务管理器...");
+
+        MultiDbDynamicTransactionManager txManager = new MultiDbDynamicTransactionManager(configProvider);
+
+        logger.info("✅ [MultiDbAutoConfiguration] 多数据源事务管理器初始化完成");
+        return txManager;
     }
 }
