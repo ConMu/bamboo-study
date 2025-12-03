@@ -1,6 +1,7 @@
 package com.conmu.multidb.config;
 
 import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
+import com.conmu.multidb.core.AbstractDataSourceConfigProvider;
 import com.conmu.multidb.core.MultiDbDynamicDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,14 +29,14 @@ import java.util.Map;
  */
 @Configuration
 @EnableAspectJAutoProxy
-@ConditionalOnBean(DataSourceConfigProvider.class)
+@ConditionalOnBean(AbstractDataSourceConfigProvider.class)
 @AutoConfigureBefore(DruidDataSourceAutoConfigure.class)
 public class MultiDbAutoConfiguration {
 
     private static final Logger logger = LoggerFactory.getLogger(MultiDbAutoConfiguration.class);
 
     @Autowired
-    private DataSourceConfigProvider configProvider;
+    private AbstractDataSourceConfigProvider configProvider;
 
     /**
      * 创建动态数据源Bean - 现在使用@Primary，因为没有循环依赖了
@@ -50,7 +51,7 @@ public class MultiDbAutoConfiguration {
 
         // 获取所有数据源配置
         Map<String, DataSource> dataSources = configProvider.getDataSources();
-        if (dataSources == null || dataSources.isEmpty()) {
+        if (dataSources.isEmpty()) {
             throw new IllegalStateException("数据源配置不能为空，请检查DataSourceConfigProvider实现");
         }
 

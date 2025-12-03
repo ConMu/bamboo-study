@@ -1,6 +1,7 @@
 package com.conmu.multidb.config;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,41 +12,25 @@ import java.util.Map;
  * @date 2025/12/01
  */
 public interface DataSourceConfigProvider {
-    
+
     /**
-     * 获取所有数据源配置
-     * @return key: 数据源标识(如ds0,ds1), value: DataSource实例
-     */
-    Map<String, DataSource> getDataSources();
-    
+     * @Description 初始化数据源
+     **/
+    void initDataSource();
+
+    /**
+     * @Description 初始化mapper到数据源的映射关系
+     **/
+    void initMapperDataSourceMappings();
+
+    /**
+     * @Description 初始化mapper拦截包路径
+     **/
+    void initAspectMapperPackages();
+
     /**
      * 获取默认数据源标识
      * @return 默认数据源key
      */
     String getDefaultDataSourceKey();
-    
-    /**
-     * 获取Mapper到数据源的映射关系
-     * @return key: Mapper类全名, value: 数据源标识
-     */
-    Map<String, String> getMapperDataSourceMappings();
-    
-    /**
-     * 指定要扫描的Mapper包路径
-     * 如果返回null或空数组，则拦截所有以Mapper结尾的接口方法
-     * 如果指定了包路径，则只拦截这些包下的Mapper接口
-     *
-     * 示例：
-     * - "com.example.mapper" 只拦截这个包下的Mapper
-     * - "com.example" 拦截com.example及其子包下的Mapper
-     */
-    String[] getMapperPackages();
-
-    /**
-     * 获取自动重载间隔时间（秒）
-     * @return 重载间隔，返回0或负数表示不启用自动重载
-     */
-    default long getAutoReloadIntervalSeconds() {
-        return 0; // 默认不启用自动重载
-    }
 }

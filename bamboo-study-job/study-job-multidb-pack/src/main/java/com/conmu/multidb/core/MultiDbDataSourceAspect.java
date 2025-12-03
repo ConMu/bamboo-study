@@ -1,8 +1,5 @@
-package com.conmu.multidb.aspect;
+package com.conmu.multidb.core;
 
-import com.conmu.multidb.config.DataSourceConfigProvider;
-import com.conmu.multidb.core.DataSourceContextHolder;
-import com.conmu.multidb.core.DbManageRouteHolder;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,10 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -31,7 +30,7 @@ import java.util.Set;
  */
 @Aspect
 @Component
-@ConditionalOnBean(DataSourceConfigProvider.class)
+@ConditionalOnBean(AbstractDataSourceConfigProvider.class)
 public class MultiDbDataSourceAspect {
 
     private static final Logger logger = LoggerFactory.getLogger(MultiDbDataSourceAspect.class);
@@ -40,22 +39,19 @@ public class MultiDbDataSourceAspect {
     private DbManageRouteHolder dbManageRouteHolder;
 
     @Autowired
-    private DataSourceConfigProvider configProvider;
+    private AbstractDataSourceConfigProvider configProvider;
 
     /**
      * 配置的Mapper包路径集合，用于精确匹配
      */
-    private Set<String> configuredPackages = new HashSet<>();
+    private Set<String> configuredPackages;
 
     @PostConstruct
     public void init() {
         // 获取配置的Mapper包路径
-        String[] mapperPackages = configProvider.getMapperPackages();
-        if (mapperPackages != null && mapperPackages.length > 0) {
-            configuredPackages.addAll(Arrays.asList(mapperPackages));
-            logger.info("🎯 [MultiDbDataSourceAspect] 配置拦截包路径: {}", Arrays.toString(mapperPackages));
-        } else {
-            logger.info("🎯 [MultiDbDataSourceAspect] 使用默认拦截策略: @Mapper注解 + *..*Mapper.*(..)");
+        this.configuredPackages = configProvider.mapperPackages;
+        if (CollectionUtils.isEmpty(configuredPackages)) {
+            logger.info("🎯 [MultiDbDataSourceAspect] 未配置拦截包路径，使用默认拦截策略: @Mapper注解 + *..*Mapper.*(..)");
         }
     }
 
