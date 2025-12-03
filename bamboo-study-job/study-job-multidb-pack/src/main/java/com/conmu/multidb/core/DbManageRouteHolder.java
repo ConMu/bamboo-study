@@ -42,7 +42,16 @@ public class DbManageRouteHolder {
             // 直接使用共享Map，实现真正的共享
             this.mapperDataSourceManageMap = configProvider.mapperDataSourceMap;
 
-            logger.info("✅ [DbManageRouteHolder] 路由初始化完成，特殊配置 {} 个Mapper", mapperDataSourceManageMap.size());
+            logger.info("✅ [DbManageRouteHolder] 路由初始化完成，特殊配置 {} 个Mapper:", mapperDataSourceManageMap.size());
+
+            // 打印具体的Mapper配置信息
+            if (!mapperDataSourceManageMap.isEmpty()) {
+                mapperDataSourceManageMap.forEach((mapper, dataSource) -> {
+                    logger.info("  📋 [DbManageRouteHolder] {} → {}", mapper, dataSource);
+                });
+            } else {
+                logger.info("  📋 [DbManageRouteHolder] 无特殊配置，所有Mapper将使用默认数据源");
+            }
 
         } catch (Exception e) {
             logger.error("❌ [DbManageRouteHolder] 初始化失败: {}", e.getMessage());
@@ -60,18 +69,11 @@ public class DbManageRouteHolder {
         String dataSourceKey = mapperDataSourceManageMap.get(mapperClassName);
         if (dataSourceKey == null || !configProvider.getDataSources().containsKey(dataSourceKey)) {
             dataSourceKey = configProvider.getDefaultDataSourceKey();
-            logger.debug("🔍 [DbManageRouteHolder] Mapper {} → {} (默认)", getSimpleMapperName(mapperClassName), dataSourceKey);
+            logger.debug("🔍 [DbManageRouteHolder] Mapper {} → {} (默认)", mapperClassName, dataSourceKey);
         } else {
-            logger.debug("🔍 [DbManageRouteHolder] Mapper {} → {} (配置)", getSimpleMapperName(mapperClassName), dataSourceKey);
+            logger.debug("🔍 [DbManageRouteHolder] Mapper {} → {} (配置)", mapperClassName, dataSourceKey);
         }
         return dataSourceKey;
     }
-    
 
-    /**
-     * 获取Mapper简短名称
-     */
-    private String getSimpleMapperName(String fullClassName) {
-        return fullClassName.substring(fullClassName.lastIndexOf(".") + 1);
-    }
 }

@@ -52,7 +52,10 @@ public class MultiDbDataSourceAspect {
         this.configuredPackages = configProvider.mapperPackages;
         if (CollectionUtils.isEmpty(configuredPackages)) {
             logger.info("🎯 [MultiDbDataSourceAspect] 未配置拦截包路径，使用默认拦截策略: @Mapper注解 + *..*Mapper.*(..)");
+        } else {
+            logger.info("🎯 [MultiDbDataSourceAspect] 配置的Mapper包路径: {}", configuredPackages);
         }
+        logger.info("✅ [MultiDbDataSourceAspect] 切面初始化完成");
     }
 
     /**
