@@ -48,11 +48,11 @@ public class MultiDbDataSourceAspect {
         // 获取配置的Mapper包路径
         this.configuredPackages = configProvider.mapperPackages;
         if (CollectionUtils.isEmpty(configuredPackages)) {
-            logger.info("🎯 [MultiDbDataSourceAspect] 未配置拦截包路径，使用默认拦截策略: @Mapper注解 + *..*Mapper.*(..)");
+            logger.info("[MultiDbDataSourceAspect] 未配置拦截包路径，使用默认拦截策略: @Mapper注解 + *..*Mapper.*(..)");
         } else {
-            logger.info("🎯 [MultiDbDataSourceAspect] 配置的Mapper包路径: {}", configuredPackages);
+            logger.info("[MultiDbDataSourceAspect] 配置的Mapper包路径: {}", configuredPackages);
         }
-        logger.info("✅ [MultiDbDataSourceAspect] 切面初始化完成");
+        logger.info("[MultiDbDataSourceAspect] 切面初始化完成");
     }
 
     /**
@@ -99,7 +99,7 @@ public class MultiDbDataSourceAspect {
             // 设置当前线程的数据源
             DataSourceContextHolder.setDataSource(dataSourceKey);
 
-            logger.debug("🔄 [MultiDbDataSourceAspect] {}.{}() → 数据源: {}",
+            logger.debug("[MultiDbDataSourceAspect] {}.{}() → 数据源: {}",
                         getSimpleClassName(mapperClassName),
                         joinPoint.getSignature().getName(),
                         dataSourceKey);
@@ -108,12 +108,12 @@ public class MultiDbDataSourceAspect {
             return joinPoint.proceed();
 
         } catch (Exception e) {
-            logger.error("❌ [MultiDbDataSourceAspect] 执行失败: {}", e.getMessage());
+            logger.error("[MultiDbDataSourceAspect] 执行失败: {}", e.getMessage());
             throw e;
         } finally {
-            // 🎯 关键：在方法执行完成后清理ThreadLocal，避免内存泄漏
+            // 关键：在方法执行完成后清理ThreadLocal，避免内存泄漏
             DataSourceContextHolder.clearDataSource();
-            logger.debug("🧹 [MultiDbDataSourceAspect] 清理数据源上下文");
+            logger.debug("[MultiDbDataSourceAspect] 清理数据源上下文");
         }
     }
 
@@ -129,11 +129,11 @@ public class MultiDbDataSourceAspect {
                 .anyMatch(pkg -> mapperClassName.startsWith(pkg + ".") || mapperClassName.startsWith(pkg));
 
             if (!inConfiguredPackage) {
-                logger.debug("⚠️ [MultiDbDataSourceAspect] {} 不在配置的包路径中，跳过拦截", getSimpleClassName(mapperClassName));
+                logger.debug("[MultiDbDataSourceAspect] {} 不在配置的包路径中，跳过拦截", getSimpleClassName(mapperClassName));
                 return false;
             }
 
-            logger.debug("✅ [MultiDbDataSourceAspect] {} 在配置包路径中，进行拦截", getSimpleClassName(mapperClassName));
+            logger.debug("[MultiDbDataSourceAspect] {} 在配置包路径中，进行拦截", getSimpleClassName(mapperClassName));
         }
 
         return true;

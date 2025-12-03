@@ -47,7 +47,7 @@ public class MultiDbAutoConfiguration {
     @Bean(name = "dataSource")
     @Primary
     public MultiDbDynamicDataSource dataSource() {
-        logger.info("🚀 [MultiDbAutoConfiguration] 开始初始化多数据源...");
+        logger.info("[MultiDbAutoConfiguration] 开始初始化多数据源...");
 
         MultiDbDynamicDataSource dynamicDataSource = new MultiDbDynamicDataSource();
 
@@ -61,7 +61,7 @@ public class MultiDbAutoConfiguration {
         Map<Object, Object> targetDataSources = new HashMap<>();
         dataSources.forEach((key, dataSource) -> {
             targetDataSources.put(key, dataSource);
-            logger.info("📊 [MultiDbAutoConfiguration] 注册数据源: {} → {}", key, dataSource.getClass().getSimpleName());
+            logger.info("[MultiDbAutoConfiguration] 注册数据源: {} → {}", key, dataSource.getClass().getSimpleName());
         });
         dynamicDataSource.setTargetDataSources(targetDataSources);
 
@@ -74,8 +74,8 @@ public class MultiDbAutoConfiguration {
         DataSource defaultDataSource = dataSources.get(defaultKey);
         dynamicDataSource.setDefaultTargetDataSource(defaultDataSource);
 
-        logger.info("🎯 [MultiDbAutoConfiguration] 设置默认数据源: {}", defaultKey);
-        logger.info("✅ [MultiDbAutoConfiguration] 多数据源初始化完成，共 {} 个数据源", dataSources.size());
+        logger.info("[MultiDbAutoConfiguration] 设置默认数据源: {}", defaultKey);
+        logger.info("[MultiDbAutoConfiguration] 多数据源初始化完成，共 {} 个数据源", dataSources.size());
 
         return dynamicDataSource;
     }
@@ -87,11 +87,11 @@ public class MultiDbAutoConfiguration {
     @Bean(name = "transactionManager")
     @Primary
     public PlatformTransactionManager transactionManager() {
-        logger.info("🚀 [MultiDbAutoConfiguration] 开始初始化多数据源事务管理器...");
+        logger.info("[MultiDbAutoConfiguration] 开始初始化多数据源事务管理器...");
 
         MultiDbDynamicTransactionManager txManager = new MultiDbDynamicTransactionManager(configProvider);
 
-        logger.info("✅ [MultiDbAutoConfiguration] 多数据源事务管理器初始化完成");
+        logger.info("[MultiDbAutoConfiguration] 多数据源事务管理器初始化完成");
         return txManager;
     }
 }

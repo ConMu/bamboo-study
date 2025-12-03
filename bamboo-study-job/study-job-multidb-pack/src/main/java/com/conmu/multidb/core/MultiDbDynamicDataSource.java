@@ -21,9 +21,9 @@ public class MultiDbDynamicDataSource extends AbstractRoutingDataSource {
 
         // 输出调试信息
         if (dataSource != null) {
-            logger.debug("🎯 [MultiDbDynamicDataSource] 当前线程数据源: {}", dataSource);
+            logger.debug("[MultiDbDynamicDataSource] 当前线程数据源: {}", dataSource);
         } else {
-            logger.debug("⚠️ [MultiDbDynamicDataSource] 当前线程未设置数据源，将使用默认数据源");
+            logger.debug("[MultiDbDynamicDataSource] 当前线程未设置数据源，将使用默认数据源");
         }
         
         return dataSource;

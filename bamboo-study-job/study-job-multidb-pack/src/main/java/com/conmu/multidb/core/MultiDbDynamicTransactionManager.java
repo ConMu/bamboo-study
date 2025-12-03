@@ -36,7 +36,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = applicationContext;
-        logger.info("🎯 [MultiDbDynamicTransactionManager] ApplicationContext初始化完成");
+        logger.info("[MultiDbDynamicTransactionManager] ApplicationContext初始化完成");
     }
     
     /**
@@ -46,7 +46,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
         String currentDataSource = DataSourceContextHolder.getDataSource();
         
         if (currentDataSource == null) {
-            logger.debug("🔍 [MultiDbDynamicTransactionManager] 无数据源上下文，使用默认事务管理器");
+            logger.debug("[MultiDbDynamicTransactionManager] 无数据源上下文，使用默认事务管理器");
             return getDefaultTransactionManager();
         }
         
@@ -55,10 +55,10 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
         
         if (applicationContext.containsBean(txManagerBeanName)) {
             PlatformTransactionManager txManager = applicationContext.getBean(txManagerBeanName, PlatformTransactionManager.class);
-            logger.debug("🔍 [MultiDbDynamicTransactionManager] 使用事务管理器: {} → {}", currentDataSource, txManagerBeanName);
+            logger.debug("[MultiDbDynamicTransactionManager] 使用事务管理器: {} → {}", currentDataSource, txManagerBeanName);
             return txManager;
         } else {
-            logger.warn("⚠️ [MultiDbDynamicTransactionManager] 数据源 {} 对应的事务管理器 {} 不存在，使用默认", currentDataSource, txManagerBeanName);
+            logger.warn("[MultiDbDynamicTransactionManager] 数据源 {} 对应的事务管理器 {} 不存在，使用默认", currentDataSource, txManagerBeanName);
             return getDefaultTransactionManager();
         }
     }
@@ -73,7 +73,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
 
         if (applicationContext.containsBean(defaultTxManagerBeanName)) {
             PlatformTransactionManager txManager = applicationContext.getBean(defaultTxManagerBeanName, PlatformTransactionManager.class);
-            logger.debug("🎯 [MultiDbDynamicTransactionManager] 使用默认事务管理器: {}", defaultTxManagerBeanName);
+            logger.debug("[MultiDbDynamicTransactionManager] 使用默认事务管理器: {}", defaultTxManagerBeanName);
             return txManager;
         } else {
             throw new IllegalStateException("默认事务管理器 '" + defaultTxManagerBeanName + "' 不存在，请确保在Demo中创建该Bean");
@@ -85,7 +85,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
         PlatformTransactionManager txManager = getCurrentTransactionManager();
         String dataSource = DataSourceContextHolder.getDataSource();
         
-        logger.debug("🔄 [MultiDbDynamicTransactionManager] 开始事务: {} [{}]", 
+        logger.debug("[MultiDbDynamicTransactionManager] 开始事务: {} [{}]",
                     dataSource != null ? dataSource : "default", 
                     definition.getName());
         
@@ -97,7 +97,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
         PlatformTransactionManager txManager = getCurrentTransactionManager();
         String dataSource = DataSourceContextHolder.getDataSource();
         
-        logger.debug("✅ [MultiDbDynamicTransactionManager] 提交事务: {}", 
+        logger.debug("[MultiDbDynamicTransactionManager] 提交事务: {}",
                     dataSource != null ? dataSource : "default");
         
         txManager.commit(status);
@@ -108,7 +108,7 @@ public class MultiDbDynamicTransactionManager implements PlatformTransactionMana
         PlatformTransactionManager txManager = getCurrentTransactionManager();
         String dataSource = DataSourceContextHolder.getDataSource();
         
-        logger.debug("❌ [MultiDbDynamicTransactionManager] 回滚事务: {}", 
+        logger.debug("[MultiDbDynamicTransactionManager] 回滚事务: {}",
                     dataSource != null ? dataSource : "default");
         
         txManager.rollback(status);
